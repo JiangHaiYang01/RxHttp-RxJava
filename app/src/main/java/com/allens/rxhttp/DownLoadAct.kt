@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.allens.RxHttp
 import com.allens.config.HttpLevel
+import com.allens.config.LifecycleCancel
 import com.allens.impl.OnDownLoadListener
 import kotlinx.android.synthetic.main.activity_dowload.*
 import java.io.File
@@ -101,7 +102,9 @@ class DownLoadAct : AppCompatActivity(),
     }
 
     private fun startDownLoad(info: DownLoadInfo) {
-        rxHttp.create().doDownLoad(info.taskId, info.url, getBasePath(this), info.saveName, this)
+        rxHttp.create()
+            .bindEvent(this, LifecycleCancel.ON_STOP)
+            .doDownLoad(info.taskId, info.url, getBasePath(this), info.saveName, this)
     }
 
     private fun pauseDownLoad(info: DownLoadInfo) {
@@ -155,7 +158,7 @@ class DownLoadAct : AppCompatActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        rxHttp.create().doDownLoadPauseAll()
+//        rxHttp.create().doDownLoadPauseAll()
     }
 
 

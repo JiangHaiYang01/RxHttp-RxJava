@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import com.allens.RxHttp
 import com.allens.config.HttpLevel
+import com.allens.config.LifecycleCancel
 import com.allens.impl.OnBuildClientListener
 import com.allens.impl.OnHttpListener
 import kotlinx.android.synthetic.main.activity_main.*
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             .addParameter("title", "123456")
             .addParameter("author", "123456")
             .addParameter("link", "123456")
+            .bindEvent(this,LifecycleCancel.ON_STOP)
             .doPost("lg/collect/add/json", TestBean::class.java, object : OnHttpListener<TestBean>() {
                 override fun onSuccess(t: TestBean) {
                     log.text = t.toString()

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Handler
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.allens.RxHttp
 import com.allens.config.HttpConfig
 import com.allens.config.LifecycleCancel
 import com.allens.download.DownLoadManager
@@ -53,11 +54,12 @@ class RequestBuilder {
     }
 
 
-    private var owner: LifecycleOwner? = null
+    private var currentOwner: LifecycleOwner? = null
 
     private var event: Lifecycle.Event = Lifecycle.Event.ON_DESTROY
 
-    fun bindEvent(owner: LifecycleOwner, type: LifecycleCancel) {
+    fun bindEvent(owner: LifecycleOwner, type: LifecycleCancel): RequestBuilder {
+        currentOwner = owner
         when (type) {
             LifecycleCancel.ON_CREATE -> {
                 event = Lifecycle.Event.ON_CREATE
@@ -78,6 +80,7 @@ class RequestBuilder {
                 event = Lifecycle.Event.ON_DESTROY
             }
         }
+        return this
     }
 
     fun <T> doGet(
@@ -94,16 +97,16 @@ class RequestBuilder {
 
     @SuppressLint("CheckResult")
     private fun bindLifeCycle(observer: Observable<ResponseBody>): Observable<ResponseBody> {
-        return if (owner == null) {
+        RxHttpLogTool.i(RxHttp.TAG, "owner is null  ${currentOwner == null}")
+        return if (currentOwner == null) {
             observer
         } else {
             observer.compose(
-                AndroidLifecycle.createLifecycleProvider(owner)
+                AndroidLifecycle.createLifecycleProvider(currentOwner)
                     .bindUntilEvent(event)
             )
         }
     }
-
 
 
     fun <T> doPost(
@@ -170,7 +173,7 @@ class RequestBuilder {
         saveName: String,
         loadListener: OnDownLoadListener
     ) {
-        DownLoadManager.downLoad(key, url, savePath, saveName, loadListener)
+        DownLoadManager.downLoad(currentOwner, event, key, url, savePath, saveName, loadListener)
     }
 
     //下载 cancel
@@ -206,7 +209,7 @@ class RequestBuilder {
             bodyMap[key] = ProgressRequestBody(listener, tag, value.getRequestBody(), handler)
         }
         val observable = ObservableTool.getObservableUpload(url, heard, map, bodyMap)
-        val beanObserver = UpLoadObserver(tag, handler,tClass, listener)
+        val beanObserver = UpLoadObserver(tag, handler, tClass, listener)
         bindLifeCycle(observable).subscribe(beanObserver)
         val task = Task(beanObserver.disposable)
         UpLoadPool.add(tag, listener, task)

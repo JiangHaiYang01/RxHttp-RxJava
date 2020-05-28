@@ -1,5 +1,9 @@
 package com.allens.download
 
+import android.annotation.SuppressLint
+import android.util.Log
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.allens.RxHttp
 import com.allens.download.utils.DownLoadPool
 import com.allens.download.utils.FileTool
@@ -8,7 +12,10 @@ import com.allens.impl.OnDownLoadListener
 import com.allens.tools.ObservableTool
 import com.allens.subscriber.DownLoadObserver
 import com.allens.tools.RxHttpLogTool
+import com.trello.lifecycle2.android.lifecycle.AndroidLifecycle
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import okhttp3.ResponseBody
 import java.io.File
 
 
@@ -18,6 +25,8 @@ object DownLoadManager {
 
 
     fun downLoad(
+        owner: LifecycleOwner?,
+        event: Lifecycle.Event,
         key: String,
         url: String,
         savePath: String,
@@ -48,7 +57,7 @@ object DownLoadManager {
 
         loadListener.onDownLoadPrepare(key = key)
         val observable = ObservableTool.getObservableDownLoad("bytes=$currentLength-", url)
-        observable
+        bindEvent(owner, observable, event)
             .map {
                 DownLoadPool.add(key, loadListener)
                 FileTool.downToFile(key, url, savePath, saveName, loadListener, currentLength, it)
@@ -56,6 +65,23 @@ object DownLoadManager {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(DownLoadObserver(key, loadListener))
 
+    }
+
+    @SuppressLint("CheckResult")
+    private fun bindEvent(
+        owner: LifecycleOwner?,
+        observable: Observable<ResponseBody>,
+        event: Lifecycle.Event
+    ): Observable<ResponseBody> {
+        RxHttpLogTool.i(TAG, "owner is null  ${owner == null}")
+        return if (owner != null) {
+            observable.compose(
+                AndroidLifecycle.createLifecycleProvider(owner)
+                    .bindUntilEvent(event)
+            )
+        } else {
+            observable
+        }
     }
 
 

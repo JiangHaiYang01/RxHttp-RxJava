@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.allens.RxHttp
 import com.allens.config.HttpLevel
+import com.allens.config.LifecycleCancel
 import com.allens.impl.OnUpLoadListener
 import com.allens.model_http.impl.OnLogListener
 import kotlinx.android.synthetic.main.activity_dowload.*
@@ -80,6 +81,7 @@ class UploadAct : AppCompatActivity(),
             .addFile("uploaded_file", File(info.path))
             .addHeard("heard", "1")
             .addParameter("parameter", "2")
+            .bindEvent(this, LifecycleCancel.ON_STOP)
             .doUpload(
                 info.taskId,
                 "http://t.xinhuo.com/index.php/Api/Pic/uploadPic",
