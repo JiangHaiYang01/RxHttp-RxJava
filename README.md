@@ -1,4 +1,4 @@
-[![HitCount](http://hits.dwyl.com/JiangHaiYang01/RxHttp-RxJava.svg)](http://hits.dwyl.com/JiangHaiYang01/RxHttp-RxJava)   [![](https://www.jitpack.io/v/JiangHaiYang01/RxHttp-RxJava.svg)](https://www.jitpack.io/#JiangHaiYang01/RxHttp-RxJava)
+  [![](https://www.jitpack.io/v/JiangHaiYang01/RxHttp-RxJava.svg)](https://www.jitpack.io/#JiangHaiYang01/RxHttp-RxJava)
 # RxHttp-RxJava
 
 # Overview
@@ -354,6 +354,10 @@ enum class CacheType {
             onCookieInterceptor: OnCookieInterceptor
         )
 ```
+
+## 下载安装包
+
+![扫码下载](https://allens-blog.oss-cn-beijing.aliyuncs.com/uPic/2020-05-23-14-20-35-1590214835%20.png)
 
 # Licens
 
