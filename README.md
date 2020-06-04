@@ -1,4 +1,4 @@
-  [![](https://www.jitpack.io/v/JiangHaiYang01/RxHttp-RxJava.svg)](https://www.jitpack.io/#JiangHaiYang01/RxHttp-RxJava)
+[![HitCount](http://hits.dwyl.com/JiangHaiYang01/RxHttp-RxJava.svg)](http://hits.dwyl.com/JiangHaiYang01/RxHttp-RxJava)  [![](https://www.jitpack.io/v/JiangHaiYang01/RxHttp-RxJava.svg)](https://www.jitpack.io/#JiangHaiYang01/RxHttp-RxJava)
 # RxHttp-RxJava
 
 # Overview
