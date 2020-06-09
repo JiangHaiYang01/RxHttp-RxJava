@@ -362,7 +362,7 @@ enum class CacheType {
 
 ## 博客地址(更新说明)
 
-[点击查看博客](https://jianghaiyang01.github.io/2020/06/09/开源-网络框架-RxHttp-RxJava-篇/#more)
+[点击查看博客](https://jianghaiyang01.github.io/posts/a50b3f1e/#more)
 
 # License
 
