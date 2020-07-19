@@ -8,16 +8,6 @@ Retrofit 与 RxJava 完美结合，支持断点下载，上传，支持缓存，
 > 建议在[博客说明](https://allens.icu/posts/a50b3f1e/#more)中查看，阅读效果更佳
 
 
-# 效果图
-
-
-
-
-
-![](http://allens-blog.oss-cn-beijing.aliyuncs.com/allens-blog/1t3r2.jpg)
-
-
-
 # Download
 
  Step 1. Add the JitPack repository to your build file
