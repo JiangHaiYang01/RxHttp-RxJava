@@ -12,8 +12,7 @@ Retrofit 与 RxJava 完美结合，支持断点下载，上传，支持缓存，
 
 
 
-<!-- <video src='http://allens-blog.oss-cn-beijing.aliyuncs.com/allens-blog/72git.mp4' type='video/mp4' controls='controls'  width='50%' height='50%'>
-</video> --> -->
+
 
 ![](http://allens-blog.oss-cn-beijing.aliyuncs.com/allens-blog/1t3r2.jpg)
 
